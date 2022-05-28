@@ -1,4 +1,5 @@
 class Canvas:
+    """Canvas"""
 
     def __init__(self, width, height):
         """Constructor of the canvas"""
@@ -23,6 +24,7 @@ class Canvas:
         self.print_canvas()
 
     def add_shape(self,rect):
+        """Add a shape to a canvas"""
         self.shapes.append(rect)
 
     def draw_rectangle(self, rect):
@@ -44,13 +46,18 @@ class Rectangle:
     """A rectangle"""
     
     def __init__(self, start_x, start_y, end_x, end_y, fill_char):
+        """Constructor
+            start_x is the X coordinate of the upper-left-hand corner of the rectangle
+            start_y is the Y coordinate of the upper-left-hand corner of the rectangle
+            end_x is the X coordinate of the lower-right-hand corner of the rectangle
+            end_y is the Y coordinate of the lower-right-hand corner of the rectangle
+            fill_char is the character that should be used to draw the rectangle
+        """
         self.start_x = start_x
         self.start_y = start_y
         self.end_x = end_x
         self.end_y = end_y
         self.fill_char = fill_char
-
-        # self.size = [([fill_char]*(end_x - start_x + 1)) for i in range((end_y - start_y + 1))]
 
 
     def change_char(self, fill_char):
