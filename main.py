@@ -19,20 +19,23 @@ class Canvas:
     def render_canvas(self):
         """Show canvas with or shapes"""
         for rect in self.shapes:
-            self.draw_rectangle(rect)
+            self._draw_rectangle(rect)
         
         self.print_canvas()
 
-    def add_shape(self,rect):
+    def add_shape(self,shape):
         """Add a shape to a canvas"""
-        self.shapes.append(rect)
+        if not isinstance(shape, Shape):
+            raise TypeError(f"Canvas.addShape is not supported with shape {shape}")
+        self.shapes.append(shape)
 
-    def draw_rectangle(self, rect):
+    def _draw_rectangle(self, rect):
         """Draw a rectangle"""
 
-        for i in range(max(0,self.canvas_height - rect.end_y), max(0,self.canvas_height - rect.start_y)):
-            for j in range(rect.start_x, min(rect.end_x+1, self.canvas_width)):
-                self.canvas[i][j] = rect.fill_char
+        for i in range(rect.start_x, rect.end_x + 1):
+            for j in range(rect.start_y, rect.end_y + 1):
+                if 0 <= i <= self.canvas_width and 0 <= j <= self.canvas_height:
+                    self.canvas[i][j] = rect.fill_char
 
     def print_canvas(self):
         """Print current canvas"""
@@ -41,8 +44,12 @@ class Canvas:
             for j in i:
                 sum += j
             print(sum)
+
+class Shape():
+    pass
+
     
-class Rectangle:
+class Rectangle(Shape):
     """A rectangle"""
     
     def __init__(self, start_x, start_y, end_x, end_y, fill_char):
@@ -66,6 +73,9 @@ class Rectangle:
     
     def translate(self, axis, num):
         """translate the shape"""
+        if axis not in("x","y"):
+            raise TypeError(f"Axis should be either x or y")
+
         if axis == "x":
             self.start_x += num
             self.end_x += num
